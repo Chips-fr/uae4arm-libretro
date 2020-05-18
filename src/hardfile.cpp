@@ -41,7 +41,7 @@ struct hardfileprivdata {
     int changenum;
 };
 
-static uae_sem_t change_sem = 0;
+static uae_sem_t change_sem ;//= 0;
 
 static struct hardfileprivdata hardfpd[MAX_FILESYSTEM_UNITS];
 
@@ -595,9 +595,11 @@ void hardfile_install (void)
     uae_u32 functable, datatable;
     uae_u32 initcode, openfunc, closefunc, expungefunc;
     uae_u32 beginiofunc, abortiofunc;
+/*
     if(change_sem != 0)
       uae_sem_destroy(&change_sem);
     change_sem = 0;
+*/
     uae_sem_init (&change_sem, 0, 1);
 
     ROM_hardfile_resname = ds ("uaehf.device");

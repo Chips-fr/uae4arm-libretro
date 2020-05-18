@@ -4198,7 +4198,7 @@ action_write_protect (Unit *unit, dpacket packet)
 
 /* We don't want multiple interrupts to be active at the same time. I don't
  * know whether AmigaOS takes care of that, but this does. */
-static uae_sem_t singlethread_int_sem = 0;
+static uae_sem_t singlethread_int_sem;// = 0;
 
 static uae_u32 REGPARAM2 exter_int_helper (TrapContext *context)
 {
@@ -4546,11 +4546,11 @@ void filesys_cleanup (void)
 {
     filesys_prepare_reset();
     free_mountinfo ();
-    
+/*    
     if(singlethread_int_sem != 0)
       uae_sem_destroy(&singlethread_int_sem);
     singlethread_int_sem = 0;
-      
+*/      
     filesys_in_interrupt = 0;
     mountertask = 0;
     automountunit = -1;
@@ -4617,7 +4617,7 @@ static void filesys_prepare_reset2 (void)
 	    write_comm_pipe_int (uip[i].unit_pipe, 0, 1);
 	    uae_sem_wait (&uip[i].reset_sync_sem);
       uae_sem_destroy(&uip[i].reset_sync_sem);
-      uip[i].reset_sync_sem = 0;
+//      uip[i].reset_sync_sem = 0;
       destroy_comm_pipe(uip[i].unit_pipe);
       uip[i].unit_pipe = 0;
       destroy_comm_pipe(uip[i].back_pipe);

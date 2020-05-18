@@ -16,7 +16,7 @@
 #include "sysconfig.h"
 #include "sysdeps.h"
 
-#include "td-sdl/thread.h"
+#include "osdep/thread.h"
 
 #ifdef USE_NAMED_SEMAPHORES
 

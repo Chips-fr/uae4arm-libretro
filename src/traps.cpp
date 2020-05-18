@@ -76,7 +76,7 @@ static struct Trap  traps[MAX_TRAPS];
 static unsigned int trap_count;
 
 
-static const int trace_traps = 0;
+static const int trace_traps;// = 0;
 
 
 static void trap_HandleExtendedTrap (TrapHandler, int has_retval);
@@ -209,7 +209,7 @@ static uaecptr m68k_return_trapaddr;
 static uaecptr exit_trap_trapaddr;
 
 /* For IPC between main thread and trap context */
-static uae_sem_t trap_mutex = 0;
+static uae_sem_t trap_mutex ;//= 0;
 static ExtendedTrapContext *current_context;
 
 
@@ -278,7 +278,8 @@ static void trap_HandleExtendedTrap (TrapHandler handler_func, int has_retval)
 	context->saved_regs = regs; /* Copy of regs to be restored when trap is done */
 
 	/* Start thread to handle new trap context. */
-	uae_start_thread_fast (trap_thread, (void *)context, &context->thread);
+	//uae_start_thread_fast (trap_thread, (void *)context, &context->thread);
+	uae_start_thread("traps",trap_thread, (void *)context, &context->thread);
 
 	/* Switch to trap context to begin execution of
 	 * trap handler function.
@@ -489,9 +490,10 @@ void init_extended_traps (void)
 
     exit_trap_trapaddr = here();
     calltrap (deftrap2 ((TrapHandler)exit_trap_handler, TRAPFLAG_NO_RETVAL, "exit_trap"));
-
+/*
     if(trap_mutex != 0)
       uae_sem_destroy(&trap_mutex);
     trap_mutex = 0;
+*/
     uae_sem_init (&trap_mutex, 0, 1);
 }

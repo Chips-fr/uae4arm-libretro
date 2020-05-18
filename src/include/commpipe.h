@@ -48,9 +48,11 @@ STATIC_INLINE void destroy_comm_pipe (smp_comm_pipe *p)
     uae_sem_destroy (&p->lock);
     uae_sem_destroy (&p->reader_wait);
     uae_sem_destroy (&p->writer_wait);
+/*
     p->lock = 0;
     p->reader_wait = 0;
     p->writer_wait = 0;
+*/
     if(p->size > 0 && p->data != NULL)
       free(p->data);
 }
